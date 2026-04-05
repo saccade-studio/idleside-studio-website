@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idleside Studio</title>
+  <meta name="description" content="Idleside Studio is an independent retro-style games studio based in Chattanooga, Tennessee.">
+  <link rel="canonical" href="https://idleside.studio/">
+  <style>
+    @font-face {
+      font-family: 'PressStart2P';
+      src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'PressStart2P', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-rendering: optimizeSpeed;
+      image-rendering: pixelated;
+      overflow: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      animation: twinkle var(--duration) var(--delay) infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.8; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 420px;
+      width: 90vw;
+      height: auto;
+      image-rendering: auto;
+    }
+
+    .tagline {
+      font-size: 0.55rem;
+      line-height: 1.8;
+      color: #aaa;
+      max-width: 500px;
+      letter-spacing: 0.5px;
+    }
+
+    .divider {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .divider span {
+      display: block;
+      width: 6px;
+      height: 6px;
+    }
+
+    /* Screen bezel */
+    .gbc-bezel {
+      background: #1a1a2e;
+      border-radius: 6px;
+      padding: 10px;
+      max-width: 440px;
+      width: 88vw;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* GBC LCD screen */
+    .gbc-screen {
+      background: #1d3b1e;
+      aspect-ratio: 166 / 140;
+      width: 100%;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1.2rem 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    /* Pixel grid overlay */
+    .gbc-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0,0,0,0.12) 2px,
+          rgba(0,0,0,0.12) 3px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(0,0,0,0.12) 2px,
+          rgba(0,0,0,0.12) 3px
+        );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Slight scanline glow */
+    .gbc-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(155, 188, 15, 0.04) 0%,
+        transparent 50%,
+        rgba(155, 188, 15, 0.02) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .event-label {
+      font-size: 0.75rem;
+      color: #9bbc0f;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .event-title {
+      font-size: 1.05rem;
+      line-height: 2;
+      color: #9bbc0f;
+    }
+
+    .event-title strong {
+      color: #cadc9f;
+    }
+
+    .event-date {
+      font-size: 0.9rem;
+      color: #8bac0f;
+      letter-spacing: 1px;
+    }
+
+    .event-venue {
+      font-size: 0.65rem;
+      color: #6b8c0f;
+    }
+
+    .ticket-link {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-family: 'PressStart2P', monospace;
+      font-size: 0.8rem;
+      color: #1d3b1e;
+      background: #9bbc0f;
+      padding: 0.8rem 1.4rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 3;
+      transition: background 0.2s;
+    }
+
+    .ticket-link:hover {
+      background: #cadc9f;
+    }
+
+    .screen-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 0.3rem;
+      position: relative;
+      z-index: 3;
+    }
+
+    .screen-logo {
+      height: 81px;
+      width: auto;
+      filter: brightness(0) saturate(100%) invert(68%) sepia(65%) saturate(430%) hue-rotate(25deg) brightness(92%);
+      opacity: 0.6;
+    }
+
+    .ticket-link-pulse {
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .social {
+      margin-top: 1rem;
+    }
+
+    .social a {
+      color: #888;
+      font-size: 0.45rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social a:hover {
+      color: #e1306c;
+    }
+
+    .social svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .location {
+      font-size: 0.35rem;
+      color: #555;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .logo { max-width: 280px; }
+      .tagline { font-size: 0.45rem; }
+      .gbc-bezel { max-width: 320px; padding: 6px; }
+      .gbc-screen { gap: 0.4rem; padding: 0.7rem 0.6rem; }
+      .event-label { font-size: 0.55rem; }
+      .event-title { font-size: 0.7rem; }
+      .event-date { font-size: 0.6rem; }
+      .event-venue { font-size: 0.45rem; }
+      .ticket-link { font-size: 0.55rem; padding: 0.6rem 1rem; }
+      .screen-logo { height: 45px; }
+      .screen-logos { gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div class="container">
+    <img src="assets/idleside-color-logo.png" alt="Idleside Studio" class="logo">
+
+    <p class="tagline">An independent retro-style games studio<br>crafting 8-bit adventures.</p>
+
+    <div class="divider">
+      <span style="background:#8b5cf6"></span>
+      <span style="background:#3b82f6"></span>
+      <span style="background:#06b6d4"></span>
+      <span style="background:#22c55e"></span>
+      <span style="background:#eab308"></span>
+      <span style="background:#f97316"></span>
+    </div>
+
+    <div class="gbc-bezel">
+      <div class="gbc-screen">
+        <p class="event-label">Beta 1 Debut</p>
+        <p class="event-title">Exclusively at<br><strong>Hybrid 3.0</strong></p>
+        <p class="event-date">April 18, 2026</p>
+        <p class="event-venue">Boneyard // Chattanooga, TN</p>
+        <a href="https://theticketing.co/e/hybridboneyard" target="_blank" rel="noopener noreferrer" class="ticket-link ticket-link-pulse">Get Tickets</a>
+        <div class="screen-logos">
+          <img src="assets/boneyard.png" alt="Boneyard" class="screen-logo">
+          <img src="assets/amf.png" alt="AMF" class="screen-logo">
+        </div>
+      </div>
+    </div>
+
+    <div class="social">
+      <a href="https://www.instagram.com/idleside.studio/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        @idleside.studio
+      </a>
+    </div>
+
+    <p class="location">Chattanooga, TN</p>
+  </div>
+
+  <script>
+    (function() {
+      var container = document.getElementById('stars');
+      for (var i = 0; i < 60; i++) {
+        var star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+        star.style.setProperty('--delay', (Math.random() * 3) + 's');
+        container.appendChild(star);
+      }
+    })();
+  </script>
+
+</body>
+</html>
