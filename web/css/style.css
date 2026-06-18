@@ -175,161 +175,121 @@ body {
   opacity: 0.5;
 }
 
-/* Desktop "press to play" controls overlay (shown via JS only when no touch).
-   Centered attract screen that fully clears on first input, so it never
-   covers gameplay. */
-#intro {
+/* Quiet, minimizable desktop controls panel. Sits in the corner beside the
+   game without blocking it, so the title sequence plays right away. Shown
+   only on non-touch devices (touch gets the on-screen gamepad). */
+#controls {
   position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(3, 25, 33, 0.55) 0%,
-    rgba(1, 10, 14, 0.92) 100%
-  );
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  width: 180px;
   font-family: "VT323", "Courier New", monospace;
-  transition: opacity 0.45s ease;
-}
-
-#intro.hidden {
-  display: none;
-}
-
-#intro.dismissed {
-  opacity: 0;
-  pointer-events: none;
-}
-
-#intro .intro-card {
-  position: relative;
-  width: min(90vw, 440px);
-  padding: 0 28px 26px;
-  background: rgba(2, 16, 10, 0.94);
-  border: 1px solid rgba(51, 255, 102, 0.45);
-  border-radius: 8px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(51, 255, 102, 0.08);
-  color: #33ff66;
-  text-align: center;
+  color: #9bbf7c;
+  background: rgba(4, 18, 12, 0.72);
+  border: 1px solid rgba(120, 200, 130, 0.28);
+  border-radius: 6px;
   overflow: hidden;
 }
 
-/* faint CRT scanlines */
-#intro .intro-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.16) 3px,
-    rgba(0, 0, 0, 0.16) 4px
-  );
-  opacity: 0.5;
+#controls.hidden {
+  display: none;
 }
 
-#intro .intro-bar {
-  margin: 0 -28px 22px;
-  padding: 9px 16px;
-  background: rgba(51, 255, 102, 0.1);
-  border-bottom: 1px solid rgba(51, 255, 102, 0.3);
-  color: #9dffb5;
-  font-size: 17px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-#intro .intro-head {
-  font-size: 32px;
-  letter-spacing: 5px;
-  color: #d7ffb8;
-  text-shadow: 0 0 10px rgba(51, 255, 102, 0.5);
-  margin-bottom: 18px;
-}
-
-#intro .intro-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px 18px;
-  align-items: center;
-  text-align: left;
-}
-
-#intro .lbl {
-  color: #6f9456;
-  text-transform: uppercase;
-  font-size: 17px;
-  letter-spacing: 1px;
-}
-
-#intro .keys {
+.cp-toggle {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  background: rgba(120, 200, 130, 0.06);
+  border: 0;
+  border-bottom: 1px solid rgba(120, 200, 130, 0.16);
+  color: #b3dd92;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-#intro .sep {
-  margin: 0 8px;
-  color: #6f9456;
+.cp-toggle:hover {
+  background: rgba(120, 200, 130, 0.12);
+}
+
+.cp-chevron {
+  color: #7fa86a;
   font-size: 17px;
+  line-height: 1;
 }
 
-#intro kbd {
+.cp-chevron::before {
+  content: "\2013"; /* en dash */
+}
+
+#controls.minimized .cp-chevron::before {
+  content: "+";
+}
+
+#controls.minimized .cp-toggle {
+  border-bottom: 0;
+}
+
+#controls.minimized .cp-body {
+  display: none;
+}
+
+.cp-body {
+  padding: 8px 10px 9px;
+}
+
+.cp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+
+.cp-lbl {
+  color: #7fa86a;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cp-keys {
+  display: flex;
+  gap: 3px;
+}
+
+.cp-sub {
+  opacity: 0.65;
+}
+
+.cp-divider {
+  height: 1px;
+  background: rgba(120, 200, 130, 0.14);
+  margin: 7px 0 6px;
+}
+
+#controls kbd {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 24px;
-  height: 26px;
-  padding: 0 7px;
-  margin: 2px;
-  font-family: "VT323", "Courier New", monospace;
-  font-size: 18px;
-  color: #d7ffb8;
-  background: linear-gradient(#0d3a1d, #08260f);
-  border: 1px solid rgba(51, 255, 102, 0.5);
-  border-bottom-width: 3px;
-  border-radius: 5px;
-}
-
-#intro .intro-extra {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(51, 255, 102, 0.18);
-  color: #6f9456;
-  font-size: 17px;
-}
-
-#intro .intro-extra kbd {
+  min-width: 20px;
+  height: 21px;
+  padding: 0 5px;
+  font-family: inherit;
   font-size: 15px;
-  height: 22px;
-  min-width: 18px;
-  border-bottom-width: 2px;
+  color: #cdeeb0;
+  background: rgba(120, 200, 130, 0.08);
+  border: 1px solid rgba(120, 200, 130, 0.32);
+  border-radius: 3px;
 }
 
-#intro .intro-prompt {
-  margin-top: 20px;
-  color: #9dffb5;
-  font-size: 21px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  animation: introPulse 1.3s ease-in-out infinite;
-}
-
-@keyframes introPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-
-/* On touch devices the on-screen gamepad takes over; never show the overlay. */
+/* On touch devices the on-screen gamepad takes over; never show the panel. */
 @media (hover: none) and (pointer: coarse) {
-  #intro { display: none !important; }
+  #controls { display: none !important; }
 }
 
 .spinner {

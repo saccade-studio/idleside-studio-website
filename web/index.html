@@ -17,19 +17,19 @@
     <div id="game">
       <canvas id="mainCanvas" width="256" height="224">No Canvas Support</canvas>
     </div>
-    <div id="intro">
-      <div class="intro-card">
-        <div class="intro-bar">Idleside &middot; Hybrid 3.0</div>
-        <div class="intro-head">CONTROLS</div>
-        <div class="intro-grid">
-          <span class="lbl">Move</span><span class="keys"><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd><span class="sep">/</span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
-          <span class="lbl">A</span><span class="keys"><kbd>Z</kbd></span>
-          <span class="lbl">B</span><span class="keys"><kbd>X</kbd></span>
-          <span class="lbl">Start</span><span class="keys"><kbd>Enter</kbd></span>
-          <span class="lbl">Select</span><span class="keys"><kbd>Shift</kbd></span>
-        </div>
-        <div class="intro-extra"><kbd>Space</kbd> Pause &middot; <kbd>Backspace</kbd> Rewind</div>
-        <div class="intro-prompt">Press any key to play</div>
+    <div id="controls">
+      <button id="cp-toggle" class="cp-toggle" aria-expanded="true">
+        <span>Controls</span><span class="cp-chevron" aria-hidden="true"></span>
+      </button>
+      <div class="cp-body">
+        <div class="cp-row"><span class="cp-lbl">Move</span><span class="cp-keys"><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd></span></div>
+        <div class="cp-row"><span class="cp-lbl">A</span><span class="cp-keys"><kbd>Z</kbd></span></div>
+        <div class="cp-row"><span class="cp-lbl">B</span><span class="cp-keys"><kbd>X</kbd></span></div>
+        <div class="cp-row"><span class="cp-lbl">Start</span><span class="cp-keys"><kbd>Enter</kbd></span></div>
+        <div class="cp-row"><span class="cp-lbl">Select</span><span class="cp-keys"><kbd>Shift</kbd></span></div>
+        <div class="cp-divider"></div>
+        <div class="cp-row cp-sub"><span class="cp-lbl">Pause</span><span class="cp-keys"><kbd>Space</kbd></span></div>
+        <div class="cp-row cp-sub"><span class="cp-lbl">Rewind</span><span class="cp-keys"><kbd>Bksp</kbd></span></div>
       </div>
     </div>
     <div id="controller">
@@ -51,19 +51,23 @@
     <script src="js/script.js"></script>
     <script src="js/debugger.js"></script>
     <script>
-      // Dismiss the desktop controls overlay once the player starts (key or click).
+      // Minimize/expand the quiet desktop controls panel (remembers your choice).
       (function () {
-        var done = false;
-        function dismiss() {
-          if (done) return;
-          done = true;
-          var el = document.getElementById("intro");
-          if (!el) return;
-          el.classList.add("dismissed");
-          setTimeout(function () { el.classList.add("hidden"); }, 500);
-        }
-        window.addEventListener("keydown", dismiss);
-        window.addEventListener("pointerdown", dismiss);
+        var panel = document.getElementById("controls");
+        var toggle = document.getElementById("cp-toggle");
+        if (!panel || !toggle) return;
+        var KEY = "hybrid_controls_min";
+        try {
+          if (localStorage.getItem(KEY) === "1") {
+            panel.classList.add("minimized");
+            toggle.setAttribute("aria-expanded", "false");
+          }
+        } catch (e) {}
+        toggle.addEventListener("click", function () {
+          var min = panel.classList.toggle("minimized");
+          toggle.setAttribute("aria-expanded", min ? "false" : "true");
+          try { localStorage.setItem(KEY, min ? "1" : "0"); } catch (e) {}
+        });
       })();
     </script>
 </body>
