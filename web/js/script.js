@@ -363,6 +363,8 @@ class Emulator {
 
   updateOnscreenGamepad() {
     $("#controller").style.display = this.touchEnabled ? "block" : "none";
+    const controls = $("#controls");
+    if (controls) controls.style.display = this.touchEnabled ? "none" : "block";
   }
 
   bindTouch() {

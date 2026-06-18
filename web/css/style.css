@@ -175,6 +175,103 @@ body {
   opacity: 0.5;
 }
 
+/* Desktop keyboard controls legend (shown via JS only when no touch) */
+#controls {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 12px 16px 14px;
+  background: rgba(3, 25, 33, 0.82);
+  border: 1px solid rgba(136, 192, 112, 0.45);
+  border-radius: 6px;
+  color: #9bbc6f;
+  font-family: "VT323", "Courier New", monospace;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.5s ease;
+}
+
+#controls .controls-title {
+  color: #c6f4a0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+#controls ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#controls li {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+#controls .lbl {
+  display: inline-block;
+  width: 64px;
+  color: #6f9456;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+#controls .keys {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#controls .or {
+  margin: 0 6px;
+  color: #6f9456;
+  font-size: 15px;
+}
+
+#controls kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 24px;
+  padding: 0 6px;
+  margin: 2px;
+  font-family: "VT323", "Courier New", monospace;
+  font-size: 17px;
+  color: #d7ffb8;
+  background: rgba(136, 192, 112, 0.12);
+  border: 1px solid rgba(136, 192, 112, 0.5);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+}
+
+#controls .controls-extra {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(136, 192, 112, 0.25);
+  font-size: 16px;
+  color: #6f9456;
+}
+
+#controls .controls-extra .dot {
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+/* Hide the legend on short/cramped viewports so it never covers the game */
+@media only screen and (max-height: 360px), only screen and (max-width: 700px) {
+  #controls { display: none !important; }
+}
+
 .spinner {
   height: 50px;
   width: 50px;
