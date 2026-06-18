@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Idleside Studio | Indie Retro Game Studio in Chattanooga, TN</title>
-  <meta name="description" content="Idleside Studio is an independent retro-style games studio in Chattanooga, Tennessee, crafting 8-bit adventures inspired by the local EDM scene.">
-  <meta name="keywords" content="indie game studio, retro games, 8-bit games, Chattanooga, Tennessee, game boy color, pixel art, EDM, independent game developer">
+  <meta name="description" content="Idleside Studio is an independent retro-style games studio in Chattanooga, Tennessee, crafting 8-bit adventures.">
+  <meta name="keywords" content="indie game studio, retro games, 8-bit games, Chattanooga, Tennessee, game boy color, pixel art, independent game developer">
   <link rel="canonical" href="https://idleside.studio/">
   <link rel="icon" type="image/png" href="goosecon.png">
 
@@ -39,381 +39,398 @@
     "name": "Idleside Studio",
     "url": "https://idleside.studio",
     "logo": "https://idleside.studio/assets/idleside-color-logo.png",
-    "description": "An independent retro-style games studio crafting 8-bit adventures inspired by Chattanooga's EDM scene.",
+    "description": "An independent retro-style games studio crafting 8-bit adventures.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Chattanooga",
       "addressRegion": "TN",
       "addressCountry": "US"
     },
-    "sameAs": [
-      "https://www.instagram.com/idleside.studio/"
-    ],
+    "sameAs": ["https://www.instagram.com/idleside.studio/"],
     "knowsAbout": ["indie games", "retro games", "8-bit games", "pixel art", "Game Boy Color"],
-    "foundingLocation": {
-      "@type": "Place",
-      "name": "Chattanooga, Tennessee"
-    }
+    "foundingLocation": { "@type": "Place", "name": "Chattanooga, Tennessee" }
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    "name": "Idleside Studio Beta 1 Debut at Hybrid 3.0",
-    "description": "The debut of Idleside Studio's first 8-bit explorer game, exclusively at Hybrid 3.0.",
-    "startDate": "2026-04-18",
-    "eventStatus": "https://schema.org/EventScheduled",
-    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "location": {
-      "@type": "Place",
-      "name": "Boneyard",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Chattanooga",
-        "addressRegion": "TN",
-        "addressCountry": "US"
-      }
-    },
-    "organizer": {
-      "@type": "Organization",
-      "name": "Idleside Studio",
-      "url": "https://idleside.studio"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://theticketing.co/e/hybridboneyard",
-      "availability": "https://schema.org/InStock"
-    }
-  }
-  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
   <style>
-    @font-face {
-      font-family: 'PressStart2P';
-      src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2') format('woff2');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
+    :root {
+      --bg: #000;
+      --green: #33ff66;
+      --green-dim: #1f9a3e;
+      --green-faint: #0e4a1e;
+      /* emphasis + (formerly amber/red) accents, kept green for a uniform phosphor look */
+      --amber: #9dffb5;
+      --red: #33ff66;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; background: var(--bg); }
 
     body {
-      background: #0a0a0a;
-      color: #e0e0e0;
-      font-family: 'PressStart2P', monospace;
-      min-height: 100vh;
+      font-family: 'VT323', monospace;
+      color: var(--green);
+      font-size: 22px;
+      line-height: 1.25;
+      overflow: hidden;
+      cursor: text;
+      -webkit-font-smoothing: none;
+    }
+
+    /* ---- CRT frame ---- */
+    .crt {
+      position: fixed;
+      inset: 0;
+      padding: 4vh 4vw;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-rendering: optimizeSpeed;
-      image-rendering: pixelated;
       overflow: hidden;
     }
 
-    .stars {
+    /* curved vignette */
+    .crt::before {
+      content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+      inset: 0;
       pointer-events: none;
+      z-index: 30;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.85) 100%);
     }
 
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: #fff;
-      animation: twinkle var(--duration) var(--delay) infinite;
+    /* scanlines + flicker */
+    .crt::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 31;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0)   0px,
+        rgba(0,0,0,0)   2px,
+        rgba(0,0,0,0.28) 3px,
+        rgba(0,0,0,0.28) 4px
+      );
+      animation: flicker 6s infinite;
     }
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.1; }
-      50% { opacity: 0.8; }
+    @keyframes flicker {
+      0%, 92%, 100% { opacity: 0.55; }
+      93% { opacity: 0.45; }
+      94% { opacity: 0.62; }
+      96% { opacity: 0.5; }
     }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2.5rem;
-      padding: 2rem;
-      text-align: center;
+    .terminal {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      text-shadow: 0 0 6px rgba(51, 255, 102, 0.55);
+      scrollbar-width: none;
     }
+    .terminal::-webkit-scrollbar { display: none; }
+
+    .line { white-space: pre-wrap; word-break: break-word; }
+    pre.line { white-space: pre; overflow-x: auto; }
+
+    .dim   { color: var(--green-dim); text-shadow: 0 0 4px rgba(31,154,62,0.5); }
+    .amber { color: var(--amber); text-shadow: 0 0 6px rgba(157,255,181,0.5); }
+    .red   { color: var(--red); text-shadow: 0 0 6px rgba(51,255,102,0.5); }
+    .ok    { color: var(--green); }
+
+    .rule { color: var(--green-faint); letter-spacing: 1px; }
+
+    a.term-link {
+      color: var(--amber);
+      text-decoration: none;
+      border-bottom: 1px dotted currentColor;
+    }
+    a.term-link:hover { background: var(--amber); color: #000; text-shadow: none; }
 
     .logo {
-      max-width: 420px;
-      width: 90vw;
-      height: auto;
-      image-rendering: auto;
-    }
-
-    .tagline {
-      font-size: 0.55rem;
-      line-height: 1.8;
-      color: #aaa;
-      max-width: 500px;
-      letter-spacing: 0.5px;
-    }
-
-    .divider {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .divider span {
       display: block;
-      width: 6px;
-      height: 6px;
+      width: 360px;
+      max-width: 78%;
+      height: auto;
+      margin: 0.6rem 0 0.4rem;
+      image-rendering: pixelated;
     }
 
-    /* Screen bezel */
-    .gbc-bezel {
-      background: #1a1a2e;
-      border-radius: 6px;
-      padding: 10px;
-      max-width: 440px;
-      width: 88vw;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
-    }
+    /* input line */
+    .inputline { display: flex; flex-wrap: wrap; align-items: baseline; }
+    .prompt { color: var(--green-dim); margin-right: 0.5ch; white-space: nowrap; }
+    #cmd { white-space: pre-wrap; word-break: break-word; }
 
-    /* GBC LCD screen */
-    .gbc-screen {
-      background: #1d3b1e;
-      aspect-ratio: 166 / 140;
-      width: 100%;
-      border-radius: 2px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 1.2rem 1rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    /* Pixel grid overlay */
-    .gbc-screen::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(0,0,0,0.12) 2px,
-          rgba(0,0,0,0.12) 3px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 2px,
-          rgba(0,0,0,0.12) 2px,
-          rgba(0,0,0,0.12) 3px
-        );
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Slight scanline glow */
-    .gbc-screen::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(155, 188, 15, 0.04) 0%,
-        transparent 50%,
-        rgba(155, 188, 15, 0.02) 100%
-      );
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .event-label {
-      font-size: 0.75rem;
-      color: #9bbc0f;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0.7;
-    }
-
-    .event-title {
-      font-size: 0.8rem;
-      line-height: 2;
-      color: #9bbc0f;
-    }
-
-    .event-title strong {
-      color: #cadc9f;
-    }
-
-    .event-date {
-      font-size: 0.9rem;
-      color: #8bac0f;
-      letter-spacing: 1px;
-    }
-
-    .event-venue {
-      font-size: 0.65rem;
-      color: #6b8c0f;
-    }
-
-    .ticket-link {
+    .cursor {
       display: inline-block;
-      margin-top: 0.3rem;
-      font-family: 'PressStart2P', monospace;
-      font-size: 0.8rem;
-      color: #1d3b1e;
-      background: #9bbc0f;
-      padding: 0.8rem 1.4rem;
-      text-decoration: none;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      position: relative;
-      z-index: 3;
-      transition: background 0.2s;
+      width: 0.6ch;
+      height: 1.05em;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(51,255,102,0.8);
+      transform: translateY(0.18em);
+      margin-left: 1px;
+      animation: blink 1.05s steps(1) infinite;
+    }
+    @keyframes blink { 0%,50% { opacity: 1; } 50.01%,100% { opacity: 0; } }
+
+    #hiddenInput {
+      position: absolute;
+      left: -9999px;
+      width: 1px; height: 1px;
+      opacity: 0;
     }
 
-    .ticket-link:hover {
-      background: #cadc9f;
-    }
-
-    .screen-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.2rem;
-      margin-top: 0.3rem;
-      position: relative;
-      z-index: 3;
-    }
-
-    .screen-logo {
-      height: 81px;
-      width: auto;
-      filter: brightness(0) saturate(100%) invert(68%) sepia(65%) saturate(430%) hue-rotate(25deg) brightness(92%);
-      opacity: 0.6;
-    }
-
-    .ticket-link-pulse {
-      animation: pulse 2.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    .social {
-      margin-top: 1rem;
-    }
-
-    .social a {
-      color: #888;
-      font-size: 0.45rem;
-      text-decoration: none;
-      letter-spacing: 1px;
-      transition: color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .social a:hover {
-      color: #e1306c;
-    }
-
-    .social svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    .location {
-      font-size: 0.35rem;
-      color: #555;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 0.5rem;
-    }
-
-    @media (max-width: 480px) {
-      .logo { max-width: 280px; }
-      .tagline { font-size: 0.45rem; }
-      .gbc-bezel { max-width: 320px; padding: 6px; }
-      .gbc-screen { gap: 0.4rem; padding: 0.7rem 0.6rem; }
-      .event-label { font-size: 0.55rem; }
-      .event-title { font-size: 0.55rem; }
-      .event-date { font-size: 0.6rem; }
-      .event-venue { font-size: 0.45rem; }
-      .ticket-link { font-size: 0.55rem; padding: 0.6rem 1rem; }
-      .screen-logo { height: 45px; }
-      .screen-logos { gap: 0.8rem; }
+    @media (max-width: 600px) {
+      body { font-size: 18px; }
+      .crt { padding: 3vh 5vw; }
+      .logo { width: 240px; }
     }
   </style>
 </head>
 <body>
-
-  <div class="stars" id="stars"></div>
-
-  <div class="container">
-    <img src="assets/idleside-color-logo.png" alt="Idleside Studio" class="logo">
-
-    <p class="tagline">An independent retro-style games studio<br>crafting 8-bit adventures.</p>
-
-    <div class="divider">
-      <span style="background:#8b5cf6"></span>
-      <span style="background:#3b82f6"></span>
-      <span style="background:#06b6d4"></span>
-      <span style="background:#22c55e"></span>
-      <span style="background:#eab308"></span>
-      <span style="background:#f97316"></span>
-    </div>
-
-    <div class="gbc-bezel">
-      <div class="gbc-screen">
-        <p class="event-title">Thank you to everyone who attended <strong>Hybrid 3.0</strong>. We loved sharing our first game with you.</p>
+  <div class="crt">
+    <div class="terminal" id="terminal">
+      <div id="output"></div>
+      <div class="inputline" id="inputline" style="display:none">
+        <span class="prompt">guest@idleside:~$</span><span id="cmd"></span><span class="cursor"></span>
       </div>
     </div>
-
-    <div class="social">
-      <a href="https://www.instagram.com/idleside.studio/" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        @idleside.studio
-      </a>
-    </div>
-
-    <p class="location">Chattanooga, TN</p>
   </div>
 
-  <script>
-    (function() {
-      var container = document.getElementById('stars');
-      for (var i = 0; i < 60; i++) {
-        var star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
-        star.style.setProperty('--delay', (Math.random() * 3) + 's');
-        container.appendChild(star);
-      }
-    })();
-  </script>
+  <input id="hiddenInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input">
 
+  <script>
+  (function () {
+    var IG = "https://www.instagram.com/idleside.studio/";
+    var output    = document.getElementById('output');
+    var inputline = document.getElementById('inputline');
+    var cmdSpan   = document.getElementById('cmd');
+    var terminal  = document.getElementById('terminal');
+    var hidden    = document.getElementById('hiddenInput');
+
+    function scroll() { terminal.scrollTop = terminal.scrollHeight; }
+
+    function print(text, cls, pre) {
+      var el = document.createElement(pre ? 'pre' : 'div');
+      el.className = 'line' + (cls ? ' ' + cls : '');
+      if (text instanceof Node) el.appendChild(text);
+      else if (pre) el.textContent = text;
+      else el.innerHTML = (text === '' ? '&nbsp;' : text);
+      output.appendChild(el);
+      scroll();
+      return el;
+    }
+
+    // ---------- ASCII goose ----------
+    var GOOSE = [
+      "                                 ___",
+      "                             ,-\"\"   `.",
+      "                           ,'  _   e )`-._",
+      "                          /  ,' `-._<.===-'",
+      "                         /  /",
+      "                        /  ;",
+      "            _.--.__    /   ;",
+      " (`._    _.-\"\"       \\  \\  ;",
+      " <_  `-\"\"             \\  \\ ;",
+      "   `.                  ;  ;",
+      "     ) )               ;  ;",
+      "    / /               /  /",
+      "   J J               /  /"
+    ].join("\n");
+
+    // ---------- command table ----------
+    var COMMANDS = {
+      help: function () {
+        return [
+          ['AVAILABLE COMMANDS', 'amber'],
+          ['  about         what is idleside', 'dim'],
+          ['  instagram     open our feed  (alias: ig)', 'dim'],
+          ['  games         current projects', 'dim'],
+          ['  play hybrid   boot HYBRID 3.0 in-browser', 'dim'],
+          ['  goose         ???', 'dim'],
+          ['  whoami        who are you', 'dim'],
+          ['  ls            list node contents', 'dim'],
+          ['  clear         wipe the screen', 'dim'],
+          ['  date          system clock', 'dim'],
+          ['  help          this list', 'dim']
+        ];
+      },
+      about: function () {
+        return [
+          ['IDLESIDE STUDIO', 'amber'],
+          'An independent retro-style games studio.',
+          'We craft 8-bit adventures out of Chattanooga, TN.',
+          '',
+          ['Find us:  ' + link('@idleside.studio', IG)]
+        ];
+      },
+      games: function () {
+        return [
+          ['PROJECT REGISTRY', 'amber'],
+          '  [ 01 ]  HYBRID 3.0 ....... playable',
+          ['  [ 02 ]  CLASSIFIED ....... in development', 'dim'],
+          '',
+          ["Run <span class=\"amber\">play hybrid</span> to boot the cartridge."],
+          ['Updates posted to ' + link('@idleside.studio', IG)]
+        ];
+      },
+      instagram: function () {
+        openIG();
+        return [['Opening ' + link('@idleside.studio', IG) + ' ...', 'amber']];
+      },
+      whoami: function () {
+        return [['guest', 'dim'], 'access level: visitor (read-only)'];
+      },
+      ls: function () {
+        return [[
+          'about.txt   games/   ' +
+          '<span class="dim">honk.wav</span>   ' +
+          '<span class="red">restricted/</span>'
+        ]];
+      },
+      date: function () {
+        return [[new Date().toString(), 'dim']];
+      },
+      goose: function () {
+        return [[GOOSE, 'amber', true], ['H O N K !', 'amber']];
+      },
+      sudo: function () {
+        return [['Permission denied. This incident has been logged.', 'red']];
+      },
+      restricted: function () {
+        return [['restricted/: access denied — clearance insufficient.', 'red']];
+      },
+      clear: function () { output.innerHTML = ''; return null; }
+    };
+
+    // aliases
+    COMMANDS.ig = COMMANDS.instagram;
+    COMMANDS.insta = COMMANDS.instagram;
+    COMMANDS.honk = COMMANDS.goose;
+    COMMANDS.contact = COMMANDS.instagram;
+    COMMANDS.dir = COMMANDS.ls;
+    COMMANDS.cls = COMMANDS.clear;
+    COMMANDS.who = COMMANDS.whoami;
+
+    // play hybrid -> launch the in-browser build
+    COMMANDS['play hybrid'] = playHybrid;
+    COMMANDS.hybrid = playHybrid;
+    COMMANDS.play = function () {
+      return [['usage: <span class="amber">play hybrid</span>', 'dim']];
+    };
+
+    // secret
+    COMMANDS.hulaween = ritual;
+    COMMANDS['spirit lake'] = ritual;
+    COMMANDS.spiritlake = ritual;
+
+    function link(label, href) {
+      return '<a class="term-link" href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+    }
+    function openIG() { window.open(IG, '_blank', 'noopener'); }
+
+    function playHybrid() {
+      print('Loading <span class="amber">HYBRID 3.0</span> ...', 'amber');
+      print('mounting cartridge // launching emulator', 'dim');
+      setTimeout(function () { window.location.href = 'web/'; }, 900);
+      return null;
+    }
+
+    function ritual() { return [['and so it shall be', 'dim']]; }
+
+    // print a list of result lines; item can be string OR [text, cls, pre]
+    function emit(lines) {
+      if (!lines) return;
+      lines.forEach(function (item) {
+        if (Array.isArray(item)) print(item[0], item[1] || '', item[2] || false);
+        else print(item);
+      });
+    }
+
+    function run(raw) {
+      var cmd = raw.trim().toLowerCase().replace(/\s+/g, ' ');
+      // echo the command
+      print('<span class="prompt" style="margin-right:.5ch">guest@idleside:~$</span>' +
+            escapeHtml(raw));
+      if (cmd === '') return;
+      var fn = COMMANDS[cmd] || COMMANDS[cmd.split(' ')[0]];
+      if (fn) emit(fn());
+      else print("command not found: " + escapeHtml(cmd) + " — type 'help'", 'red');
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ---------- live input ----------
+    function focusInput() { hidden.focus(); }
+    document.addEventListener('click', focusInput);
+
+    hidden.addEventListener('input', function () {
+      cmdSpan.textContent = hidden.value;
+      scroll();
+    });
+
+    hidden.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var v = hidden.value;
+        hidden.value = '';
+        cmdSpan.textContent = '';
+        run(v);
+        scroll();
+      }
+    });
+
+    // ---------- boot sequence ----------
+    var BOOT = [
+      ['IDLESIDE STUDIO  //  MAINFRAME NODE-07', 'amber'],
+      ['========================================', 'rule'],
+      ['ESTABLISHING SECURE UPLINK ........ <span class="ok">[OK]</span>', 'dim'],
+      ['DECRYPTING SESSION KEY ............ <span class="ok">[OK]</span>', 'dim'],
+      ['MOUNTING /idleside ................ <span class="ok">[OK]</span>', 'dim'],
+      ['ACCESS LEVEL: <span class="amber">GUEST</span>', 'dim'],
+      ['WARNING: UNAUTHORIZED ACCESS IS MONITORED.', 'red'],
+      ['========================================', 'rule'],
+      ['__LOGO__'],
+      ['An independent retro-style games studio.', 'dim'],
+      ['crafting 8-bit adventures // Chattanooga, TN', 'dim'],
+      [''],
+      ['» ' + link('@idleside.studio', IG)],
+      [''],
+      ["Type <span class=\"amber\">help</span> for available commands."]
+    ];
+
+    var i = 0;
+    function boot() {
+      if (i >= BOOT.length) {
+        inputline.style.display = 'flex';
+        focusInput();
+        scroll();
+        return;
+      }
+      var item = BOOT[i++];
+      if (item[0] === '__LOGO__') {
+        var img = document.createElement('img');
+        img.src = 'assets/idleside-color-logo.png';
+        img.alt = 'Idleside Studio';
+        img.className = 'logo';
+        print(img);
+      } else {
+        print(item[0], item[1] || '');
+      }
+      scroll();
+      setTimeout(boot, 230 + Math.random() * 160);
+    }
+
+    boot();
+  })();
+  </script>
 </body>
 </html>
