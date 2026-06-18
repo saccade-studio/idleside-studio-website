@@ -17,16 +17,20 @@
     <div id="game">
       <canvas id="mainCanvas" width="256" height="224">No Canvas Support</canvas>
     </div>
-    <div id="controls">
-      <div class="controls-title">// CONTROLS</div>
-      <ul>
-        <li><span class="lbl">Move</span><span class="keys"><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd><span class="or">or</span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span></li>
-        <li><span class="lbl">A</span><span class="keys"><kbd>Z</kbd></span></li>
-        <li><span class="lbl">B</span><span class="keys"><kbd>X</kbd></span></li>
-        <li><span class="lbl">Start</span><span class="keys"><kbd>Enter</kbd></span></li>
-        <li><span class="lbl">Select</span><span class="keys"><kbd>Shift</kbd></span></li>
-      </ul>
-      <div class="controls-extra"><kbd>Space</kbd> Pause<span class="dot">&middot;</span><kbd>Backspace</kbd> Rewind</div>
+    <div id="intro">
+      <div class="intro-card">
+        <div class="intro-bar">Idleside &middot; Hybrid 3.0</div>
+        <div class="intro-head">CONTROLS</div>
+        <div class="intro-grid">
+          <span class="lbl">Move</span><span class="keys"><kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd><span class="sep">/</span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
+          <span class="lbl">A</span><span class="keys"><kbd>Z</kbd></span>
+          <span class="lbl">B</span><span class="keys"><kbd>X</kbd></span>
+          <span class="lbl">Start</span><span class="keys"><kbd>Enter</kbd></span>
+          <span class="lbl">Select</span><span class="keys"><kbd>Shift</kbd></span>
+        </div>
+        <div class="intro-extra"><kbd>Space</kbd> Pause &middot; <kbd>Backspace</kbd> Rewind</div>
+        <div class="intro-prompt">Press any key to play</div>
+      </div>
     </div>
     <div id="controller">
       <div id="controller_dpad">
@@ -47,17 +51,19 @@
     <script src="js/script.js"></script>
     <script src="js/debugger.js"></script>
     <script>
-      // Fade out the desktop controls legend once the player starts playing.
+      // Dismiss the desktop controls overlay once the player starts (key or click).
       (function () {
-        var faded = false;
-        window.addEventListener("keydown", function () {
-          if (faded) return;
-          faded = true;
-          var c = document.getElementById("controls");
-          if (!c) return;
-          c.style.opacity = "0";
-          setTimeout(function () { c.style.display = "none"; }, 550);
-        });
+        var done = false;
+        function dismiss() {
+          if (done) return;
+          done = true;
+          var el = document.getElementById("intro");
+          if (!el) return;
+          el.classList.add("dismissed");
+          setTimeout(function () { el.classList.add("hidden"); }, 500);
+        }
+        window.addEventListener("keydown", dismiss);
+        window.addEventListener("pointerdown", dismiss);
       })();
     </script>
 </body>
