@@ -1,0 +1,210 @@
+/* Idleside Studio — duck character cards
+   Shared styling for /duck/<name> pages.
+   Lives at /duck/duck.css, so asset URLs below are relative to /duck/. */
+
+@font-face {
+  font-family: 'Early GameBoy';
+  /* space in the filename must be percent-encoded */
+  src: url('assets/Early%20GameBoy.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  /* classic DMG (original Game Boy) green LCD palette */
+  --lcd-bg:   #9bbc0f;
+  --lcd-edge: #8aa70d;
+  --lcd-ink:  #0f380f;
+  --lcd-mid:  #306230;
+  /* per-duck accent, set inline per page */
+  --accent: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  background: #160202;
+  font-family: 'Early GameBoy', monospace;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---- stage: velvet backdrop, everything stacked & centred ---- */
+.stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;        /* fixed to the viewport so children fit, LCD scrolls */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2.2svh, 20px);
+  padding: clamp(10px, 3svh, 28px) 12px;
+  overflow: hidden;
+  background: #160202 url('assets/fullscreen-bg.JPG') center / cover no-repeat;
+}
+/* gentle vignette so the gold frame & screen read against the velvet */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 100% at 50% 38%, transparent 40%, rgba(0,0,0,.45) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- ornate frame + animation window ---- */
+.frame-wrap {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  aspect-ratio: 1000 / 1237;
+  /* fit-on-one-screen: bounded by both width and height */
+  width: min(82vw, 41svh);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.frame {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 22px rgba(0,0,0,.55));
+}
+/* transparent interior of frame.png, measured from its alpha channel */
+.window {
+  position: absolute;
+  z-index: 1;
+  left: 16.8%;
+  top: 13.5%;
+  width: 66.4%;
+  height: 72.9%;
+  overflow: hidden;
+  background: #000;
+}
+.anim {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+/* ---- tap-to-hatch prompt (below the frame, before hatching) ---- */
+.prompt {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  font-size: clamp(10px, 3vw, 15px);
+  letter-spacing: 2px;
+  color: #fff7e6;
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 999px;
+  background: rgba(0,0,0,.42);
+  text-shadow: 0 0 8px var(--accent);
+  box-shadow: 0 0 14px -2px var(--accent), inset 0 0 10px -4px var(--accent);
+  cursor: pointer;
+  white-space: nowrap;
+  animation: pulse 1.1s ease-in-out infinite;
+  transition: opacity .35s ease;
+}
+.prompt.hidden { opacity: 0; pointer-events: none; animation: none; }
+@keyframes pulse {
+  0%, 100% { transform: translateY(0);   opacity: 1;   }
+  50%      { transform: translateY(-2px); opacity: .55; }
+}
+
+/* ---- Game Boy screen module ---- */
+.gb {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: min(92vw, 460px);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(10px, 2.4svh, 18px);
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(#43464b, #25272b);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14),
+              inset 0 -2px 6px rgba(0,0,0,.5),
+              0 10px 26px rgba(0,0,0,.55);
+}
+/* little red power LED, DMG-style */
+.gb::before {
+  content: '';
+  position: absolute;
+  top: clamp(10px, 2.4svh, 18px);
+  left: clamp(14px, 4vw, 22px);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #d83b3b;
+  box-shadow: 0 0 7px #ff5a5a, inset 0 1px 1px rgba(255,255,255,.6);
+}
+
+.gb-screen {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(12px, 2.6svh, 18px) clamp(12px, 3.4vw, 18px);
+  margin-top: 14px;          /* leave room for the LED row */
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--lcd-bg);
+  border: 2px solid #0a280a;
+  box-shadow: inset 0 0 0 2px var(--lcd-edge),
+              inset 0 2px 10px rgba(0,0,0,.3);
+}
+
+.gb-name {
+  flex: 0 0 auto;
+  text-align: center;
+  color: var(--lcd-ink);
+  font-size: clamp(13px, 4vw, 19px);
+  letter-spacing: 2px;
+  padding-bottom: clamp(6px, 1.4svh, 10px);
+  margin-bottom: clamp(6px, 1.4svh, 10px);
+  border-bottom: 2px dashed var(--lcd-mid);
+}
+
+.gb-text {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  color: var(--lcd-ink);
+  font-size: clamp(11px, 3.3vw, 15px);
+  line-height: 1.85;
+  letter-spacing: .5px;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: var(--lcd-mid) transparent;
+}
+.gb.dense .gb-text { line-height: 1.5; letter-spacing: 0; }
+
+.gb-text::-webkit-scrollbar { width: 6px; }
+.gb-text::-webkit-scrollbar-thumb { background: var(--lcd-mid); border-radius: 3px; }
+
+.gb-text a.ig {
+  color: var(--lcd-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* blinking text cursor */
+.cursor {
+  display: inline-block;
+  color: var(--lcd-ink);
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* very small / very short screens: shrink the frame a touch more */
+@media (max-height: 620px) {
+  .frame-wrap { width: min(70vw, 38svh); }
+}

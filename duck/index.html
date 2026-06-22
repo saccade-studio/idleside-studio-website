@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ducks — Idleside Studio</title>
+  <meta name="description" content="There are 6 little ducks hidden out in the world. Keep hunting, and follow @dvbby_doo on Instagram.">
+  <link rel="canonical" href="https://idleside.studio/duck/">
+  <link rel="icon" type="image/png" href="../goosecon.png">
+  <meta name="theme-color" content="#160202">
+  <link rel="stylesheet" href="duck.css">
+  <style>
+    .hub {
+      position: relative; z-index: 1;
+      width: min(92vw, 420px);
+      display: flex; flex-direction: column; align-items: center;
+      gap: clamp(16px, 3.4svh, 28px);
+      text-align: center;
+    }
+    .egg {
+      width: clamp(120px, 38vw, 180px);
+      aspect-ratio: 2 / 3;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #000;
+      border: 4px solid #c9a227;
+      box-shadow: 0 8px 22px rgba(0,0,0,.55);
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    .egg img {
+      display: block; width: 100%; height: 100%;
+      object-fit: cover; image-rendering: pixelated;
+    }
+    @keyframes bob { 50% { transform: translateY(-8px); } }
+
+    .hub h1 {
+      font-size: clamp(16px, 5.4vw, 26px);
+      letter-spacing: 3px;
+      color: #fff7e6;
+      text-shadow: 0 2px 12px rgba(0,0,0,.75);
+    }
+    .hub p {
+      font-size: clamp(10px, 3vw, 13px);
+      letter-spacing: 1px;
+      line-height: 1.85;
+      color: #ffd9e2;
+      text-shadow: 0 1px 6px rgba(0,0,0,.85);
+    }
+    .follow {
+      display: inline-block;
+      font-family: 'Early GameBoy', monospace;
+      font-size: clamp(10px, 3vw, 13px);
+      letter-spacing: 1px;
+      color: #160202;
+      background: #fff7e6;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 2px solid #c9a227;
+      box-shadow: 0 6px 16px rgba(0,0,0,.5);
+      transition: transform .15s ease;
+    }
+    .follow:hover, .follow:focus-visible { transform: translateY(-3px); outline: none; }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="hub">
+      <div class="egg"><img src="assets/egg-still.png" alt="A mystery egg" decoding="async"></div>
+      <h1>KEEP HUNTING!</h1>
+      <p>There are 6 little ducks hidden out in the world. Find their QR codes to hatch them &mdash; can you collect them all?</p>
+      <a class="follow" href="https://instagram.com/dvbby_doo" target="_blank" rel="noopener">FOLLOW @DVBBY_DOO &rarr;</a>
+      <p>New ducks, hints &amp; the prize drop on Instagram.</p>
+    </div>
+  </main>
+</body>
+</html>
