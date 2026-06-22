@@ -9,7 +9,7 @@
   var EGG_STILL = ASSETS + 'egg-still.png';
   var EGG_HATCH = ASSETS + 'EGG_HATCH.gif';
   var HATCH_MS  = 3200;               // EGG_HATCH.gif total run-time (22 frames)
-  var IG_URL    = 'https://instagram.com/dvbby_doo';
+  var IG_URL    = 'https://instagram.com/dvbbydoo';
 
   var frame  = document.getElementById('frame');
   var anim   = document.getElementById('anim');
@@ -58,8 +58,8 @@
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
   function linkify(html) {
-    return html.replace(/@dvbby_doo/gi,
-      '<a class="ig" href="' + IG_URL + '" target="_blank" rel="noopener">@dvbby_doo</a>');
+    return html.replace(/@dvbbydoo/gi,
+      '<a class="ig" href="' + IG_URL + '" target="_blank" rel="noopener">@dvbbydoo</a>');
   }
   function render(shown, done) {
     var html = esc(shown).replace(/\n/g, '<br>');
