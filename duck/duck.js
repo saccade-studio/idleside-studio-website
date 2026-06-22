@@ -61,13 +61,10 @@
     return html.replace(/@dvbbydoo/gi,
       '<a class="ig" href="' + IG_URL + '" target="_blank" rel="noopener">@dvbbydoo</a>');
   }
-  function render(shown, done) {
-    var html = esc(shown).replace(/\n/g, '<br>');
-    if (done) {
-      gbText.innerHTML = linkify(html) + '<span class="cursor">_</span>';
-    } else {
-      gbText.innerHTML = html + '<span class="cursor">_</span>';
-    }
+  function render(shown) {
+    // linkify on every frame so @dvbbydoo is clickable the moment it's typed
+    var html = linkify(esc(shown).replace(/\n/g, '<br>'));
+    gbText.innerHTML = html + '<span class="cursor">_</span>';
     gbText.scrollTop = gbText.scrollHeight;
   }
   function type() {
@@ -77,11 +74,11 @@
       if (i < full.length) {
         var ch = full.charAt(i++);
         if (ch !== ' ' && ch !== '\n') beep();
-        render(full.slice(0, i), false);
+        render(full.slice(0, i));
         var delay = ch === '\n' ? 260 : ('.!?'.indexOf(ch) > -1 ? 200 : 34);
         typeTimer = setTimeout(step, delay);
       } else {
-        render(full, true);
+        render(full);
       }
     })();
   }
