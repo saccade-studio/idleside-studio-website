@@ -42,9 +42,21 @@ body {
   gap: clamp(8px, 2.2svh, 20px);
   padding: clamp(10px, 3svh, 28px) 12px;
   overflow: hidden;
-  background: #160202 url('assets/fullscreen-bg.JPG') center / cover no-repeat;
+  /* longhand so per-duck pages can override just the image (see .duckbg) */
+  background-color: #160202;
+  background-image: url('assets/fullscreen-bg.JPG');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-/* gentle vignette so the gold frame & screen read against the velvet */
+/* Per-duck full-art background (set inline per page). The art is 9:16, sized
+   for phones: it fills the screen on portrait/mobile (cover). On wider screens
+   it letterboxes with black bars instead of cropping. */
+.stage.duckbg { background-color: #000; }
+@media (min-aspect-ratio: 9 / 16) {
+  .stage.duckbg { background-size: contain; }
+}
+/* gentle vignette so the gold frame & screen read against the backdrop */
 .stage::before {
   content: '';
   position: absolute;
