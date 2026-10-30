@@ -8,7 +8,7 @@
   var ASSETS = '../assets/';
   var EGG_STILL = ASSETS + 'egg-still.png';
   var EGG_HATCH = ASSETS + 'EGG_HATCH.gif';
-  var HATCH_MS  = 3200;               // EGG_HATCH.gif total run-time (22 frames)
+  var HATCH_MS  = 4700;               // EGG_HATCH.gif total run-time (27 frames)
   var IG_URL    = 'https://instagram.com/dvbbydoo';
 
   var frame  = document.getElementById('frame');
@@ -58,8 +58,10 @@
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
   function linkify(html) {
-    return html.replace(/@dvbbydoo/gi,
-      '<a class="ig" href="' + IG_URL + '" target="_blank" rel="noopener">@dvbbydoo</a>');
+    // keep the handle's case as written in the bio (e.g. @DVBBYDOO)
+    return html.replace(/@dvbbydoo/gi, function (m) {
+      return '<a class="ig" href="' + IG_URL + '" target="_blank" rel="noopener">' + m + '</a>';
+    });
   }
   function render(shown) {
     // linkify on every frame so @dvbbydoo is clickable the moment it's typed
@@ -90,12 +92,21 @@
     unlockAudio();
     prompt.classList.add('hidden');
 
+    // start the countdown once the hatch GIF has actually loaded, so a slow
+    // connection can't cut the animation short
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      setTimeout(function () {
+        anim.src = ASSETS + D.gif;   // duck, loops forever
+        type();
+      }, HATCH_MS);
+    }
+    anim.addEventListener('load', start, { once: true });
+    anim.addEventListener('error', start, { once: true });
     anim.src = EGG_HATCH;          // egg hatch, plays through once
-
-    setTimeout(function () {
-      anim.src = ASSETS + D.gif;   // duck, loops forever
-      type();
-    }, HATCH_MS);
+    if (anim.complete && anim.naturalWidth) start();   // already cached & decoded
   }
 
   frame.addEventListener('click', hatch);
